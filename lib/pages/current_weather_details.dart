@@ -83,7 +83,7 @@ class _CurrentWeatherDetailsPageState extends State<CurrentWeatherDetailsPage> {
                               height: 50,
                             ):Container(),
                             Text("${currentWeather!.main!.temp!.toStringAsFixed(0)}°C",
-                              style: TextStyle(color:Theme.of(context).primaryColor,fontWeight: FontWeight.w800,fontSize: 50),
+                              style: TextStyle(color:Theme.of(context).colorScheme.detailsPageTemperatureColor,fontWeight: FontWeight.w800,fontSize: 50),
                             )
                           ],
                         ),

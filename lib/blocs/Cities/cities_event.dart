@@ -7,3 +7,10 @@ abstract class CitiesEvent extends Equatable {
 }
 class GetCitiesEvent extends CitiesEvent{}
 class RefreshEvent extends CitiesEvent{}
+
+class AllCityClickedEvent extends CitiesEvent{}
+
+class AddCityEvent extends CitiesEvent{
+  final String city;
+  AddCityEvent(this.city);
+}

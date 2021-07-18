@@ -10,4 +10,6 @@ abstract class BaseRepositoryProvider extends BaseProvider {
   Future<CurrentWeather?> getCurrentWeather(String city);
   Future<CurrentWeather?> getCurrentWeatherFromLatLang(Position position);
   Future<ForecastWeather?> getWeatherForecast(String city);
+
+  Future<bool> addNewCity(String city);
 }

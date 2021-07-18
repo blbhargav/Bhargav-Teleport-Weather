@@ -94,4 +94,16 @@ class WeatherDataProvider extends BaseRepositoryProvider{
       return null;
     }
   }
+
+  @override
+  Future<bool> addNewCity(String city) async{
+    try{
+      List<String> cities=sharedPrefService!.getCitiesList;
+      cities.add(city);
+      await sharedPrefService!.saveCities(cities);
+      return true;
+    }catch(e){
+      return false;
+    }
+  }
 }

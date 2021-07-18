@@ -18,3 +18,31 @@ class RefreshCityState extends CitiesState{
   @override
   List<Object> get props => [];
 }
+
+class ShowAddCityUIState extends CitiesState{
+  @override
+  List<Object> get props => [];
+}
+
+class ShowAddingCityState extends CitiesState{
+  @override
+  List<Object> get props => [];
+}
+class CloseProcessingState extends CitiesState{
+  @override
+  List<Object> get props => [];
+}
+
+class CityAlreadyExistsState extends CitiesState{
+  @override
+  List<Object> get props => [];
+}
+
+class SuccessCityAddedState extends CitiesState{
+  @override
+  List<Object> get props => [];
+}
+class ErrorCityAddingState extends CitiesState{
+  @override
+  List<Object> get props => [];
+}

@@ -4,6 +4,7 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:teleport_weather_bhargav/DB/weather_repository.dart';
+import 'package:teleport_weather_bhargav/blocs/Cities/cities_bloc.dart';
 import 'package:teleport_weather_bhargav/blocs/Dashboard/dashboard_bloc.dart';
 import 'package:teleport_weather_bhargav/blocs/Home/home_bloc.dart';
 import 'package:teleport_weather_bhargav/custom_color_scheme.dart';
@@ -169,7 +170,7 @@ class _HomePageState extends State<HomePage> {
     if(currentBottomIndex==1){
       return FloatingActionButton(
         onPressed: (){
-
+          BlocProvider.of<CitiesBloc>(context).add(AllCityClickedEvent());
         },
         backgroundColor: Theme.of(context).primaryColor,
         tooltip: 'Add',

@@ -12,4 +12,6 @@ class WeatherRepository {
   Future<CurrentWeather?> getCurrentWeatherFromLatLang(Position position) => _weatherDataProvider.getCurrentWeatherFromLatLang(position);
 
   Future<ForecastWeather?> getWeatherForecast(String city) =>_weatherDataProvider.getWeatherForecast(city);
+
+  Future<bool> addNewCity(String city) => _weatherDataProvider.addNewCity(city);
 }
