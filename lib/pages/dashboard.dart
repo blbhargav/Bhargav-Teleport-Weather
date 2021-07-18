@@ -294,8 +294,8 @@ class _DashboardPageState extends State<DashboardPage> {
       children: [
         Container(
           constraints: BoxConstraints(
-            minWidth: 250,
-            maxWidth: 360,
+            minWidth: 150,
+            maxWidth: 325,
             maxHeight: 60
           ),
           padding: EdgeInsets.all(10),
