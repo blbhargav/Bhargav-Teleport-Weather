@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
+import 'package:connectivity/connectivity.dart';
 import 'package:equatable/equatable.dart';
 import 'package:teleport_weather_bhargav/DB/weather_repository.dart';
 
@@ -15,8 +16,12 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     HomeEvent event,
   ) async* {
     if(event is InitHomeScreen){
-      //yield ConnectionErrorState();
-      yield DashboardPageState();
+      yield HomeInitial();
+      var connectivityResult = await (Connectivity().checkConnectivity());
+      if (connectivityResult == ConnectivityResult.none) {
+        yield ConnectionErrorState();
+      }else
+        yield DashboardPageState();
     }else if(event is DashboardClickedEvent){
       yield DashboardPageState();
     }else if(event is CitiesClickedEvent){

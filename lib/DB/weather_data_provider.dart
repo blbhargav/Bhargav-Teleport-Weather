@@ -26,11 +26,15 @@ class WeatherDataProvider extends BaseRepositoryProvider{
 
   @override
   Future<List<String>> getCities() async{
+    //Fetching user added cites
     List<String> cities=sharedPrefService!.getCitiesList;
+
+    //Initially we provide below cities
     List<String> defaultCities=["Kuala Lumpur","Klang","Ipoh","Butterworth","George Town","Petaling Jaya","Kuantan","Shah Alam",
       "Johor Bahru","Kota Bharu","Melaka","Kota Kinabalu","Seremban","Sandakan","Sungai Petani","Kuching",
       "Kuala Terengganu","Alor Setar","Putrajaya","Kangar","Labuan","Pasir Mas","Tumpat","Ketereh","Kampung Lemal","Pulai Chondong"];
 
+    //Combining default and user cites
     defaultCities.addAll(cities);
 
     return defaultCities;
@@ -115,8 +119,13 @@ class WeatherDataProvider extends BaseRepositoryProvider{
   @override
   Future<bool> addNewCity(String city) async{
     try{
+      //fetching user cites
       List<String> cities=sharedPrefService!.getCitiesList;
+
+      //appending new city to them
       cities.add(city);
+
+      //saving all the cities
       await sharedPrefService!.saveCities(cities);
       return true;
     }catch(e){

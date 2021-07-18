@@ -2,7 +2,7 @@
     package="com.bhargav.weather.teleport_weather_bhargav">
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
    <application
-        android:label="teleport_weather_bhargav"
+        android:label="Teleport Bhargav"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"

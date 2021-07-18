@@ -48,6 +48,10 @@ class _HomePageState extends State<HomePage> {
         }else if(state is SettingsPageState){
           currentBottomIndex=2;
           _container=SettingsPage();
+        }else if(state is HomeInitial){
+          _container=Container(
+            child: Center(child: CircularProgressIndicator(),),
+          );
         }
       },
       child: BlocBuilder<HomeBloc, HomeState>(

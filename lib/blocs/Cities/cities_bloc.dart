@@ -26,27 +26,31 @@ class CitiesBloc extends Bloc<CitiesEvent, CitiesState> {
       yield CitiesInitial();
       yield ShowAddCityUIState();
     }else if(event is AddCityEvent){
-      yield ShowAddingCityState();
-      bool isCityValid=true;
-      for(var i=0;i<cities.length;i++){
-        if(cities[i].toLowerCase()==event.city.toLowerCase()){
-          yield CloseProcessingState();
-          yield CityAlreadyExistsState();
-          isCityValid=false;
-          break;
-        }
-      }
+     yield* mapAddCityEventToState(event);
+    }
+  }
 
-      if(isCityValid){
-        bool response= await repository.addNewCity(event.city);
+  Stream<CitiesState> mapAddCityEventToState(AddCityEvent event) async*{
+    yield ShowAddingCityState();
+    bool isCityValid=true;
+    for(var i=0;i<cities.length;i++){
+      if(cities[i].toLowerCase()==event.city.toLowerCase()){
         yield CloseProcessingState();
-        if(response){
-          yield SuccessCityAddedState();
-        }else{
-          yield ErrorCityAddingState();
-        }
+        yield CityAlreadyExistsState();
+        isCityValid=false;
+        break;
       }
+    }
 
+    if(isCityValid){
+      bool response= await repository.addNewCity(event.city);
+      await Future.delayed(Duration(seconds: 2));//Delaying purposefully to show processing animation
+      yield CloseProcessingState();
+      if(response){
+        yield SuccessCityAddedState();
+      }else{
+        yield ErrorCityAddingState();
+      }
     }
   }
 

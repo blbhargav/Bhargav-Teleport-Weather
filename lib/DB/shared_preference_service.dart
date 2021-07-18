@@ -13,7 +13,6 @@ class SharedPreferencesService {
   SharedPreferencesService._internal();
 
   static Future<SharedPreferencesService> get instance async {
-    //SharedPreferences.setMockInitialValues({});
     if (_instance == null) {
       _instance = SharedPreferencesService._internal();
     }

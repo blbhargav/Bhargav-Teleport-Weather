@@ -15,7 +15,7 @@ class SplashBloc extends Bloc<SplashEvent, SplashState> {
     SplashEvent event,
   ) async* {
     if (event is SetSplash) {
-      //I simulate the process with future delayed for 5 second
+      //Waiting for the splash animation to complete
       await Future.delayed(Duration(seconds: 5));
 
       yield NavigateToHomeScreen();

@@ -105,10 +105,6 @@ class _CitiesPageState extends State<CitiesPage> {
                                     maxWidth: 200
                                 ),
                                 padding:EdgeInsets.all(8),
-                                // decoration: selectedCity==cities[index]?BoxDecoration(
-                                //     color: Theme.of(context).cardColor,
-                                //     borderRadius: BorderRadius.all(Radius.circular(20))
-                                // ):null,
                                 child: Text("${cities[index]}",
                                   style: TextStyle(fontSize: 16,
                                     fontWeight: FontWeight.w600,

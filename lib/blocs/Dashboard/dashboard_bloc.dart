@@ -20,7 +20,9 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
     DashboardEvent event,
   ) async* {
     if(event is GetCurrentWeatherEvent){
-      yield* mapGetCurrentWeatherEventToState(event);
+      yield CurrentWeatherInitial();
+      CurrentWeather? currentWeather=await repository.getCurrentWeather(event.city);
+      yield* processCurrentWeatherState(currentWeather);
     }else if(event is FetchUserLocationEvent){
       yield* mapFetchUserLocationEventToState(event);
     }else if(event is GetWeatherForecastEvent){
@@ -28,12 +30,7 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
     }else if(event is GetCurrentWeatherByLatLangEvent){
       yield CurrentWeatherInitial();
       CurrentWeather? currentWeather=await repository.getCurrentWeatherFromLatLang(event.position);
-      if(currentWeather==null){
-        yield ErrorCurrentWeatherState();
-      }else{
-        yield DisplayCurrentWeatherState(currentWeather);
-        yield RefreshCitiesState();
-      }
+      yield* processCurrentWeatherState(currentWeather);
     }else if(event is GetWeatherForecastByLatLangEvent){
       yield ForecastWeatherInitial();
       ForecastWeather? forecastWeather=await repository.getWeatherForecastByLatLang(event.position);
@@ -41,9 +38,7 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
     }
   }
 
-  Stream<DashboardState> mapGetCurrentWeatherEventToState(GetCurrentWeatherEvent event) async*{
-    yield CurrentWeatherInitial();
-    CurrentWeather? currentWeather=await repository.getCurrentWeather(event.city);
+  Stream<DashboardState> processCurrentWeatherState(currentWeather) async*{
     if(currentWeather==null){
       yield ErrorCurrentWeatherState();
     }else{
