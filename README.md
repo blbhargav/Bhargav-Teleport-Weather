@@ -56,7 +56,7 @@ The purpose of these options it to change the app theme. Click on "Dark" option 
 <img src="/screenshots/Home_dark.jpg" width="150">
 You can undo this operation by selecting "Light" option if you don't like this theme 😔.
 
-That's it. I have recored all these things in a [Video](https://drive.google.com/file/d/1VnWhlmatXPgKb8is4ClfE-QHe2JA8ekp/view?usp=sharing).
+That's it. I have recorded all these things in a [Video](https://drive.google.com/file/d/1VnWhlmatXPgKb8is4ClfE-QHe2JA8ekp/view?usp=sharing).
 Install the [APK](https://drive.google.com/file/d/1M7j0oUuHbLMyilHUYZpgouGb1Z1lbUCw/view?usp=sharing) and check my app.
 
 Thank you for reading.
