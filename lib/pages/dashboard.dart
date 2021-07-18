@@ -46,6 +46,9 @@ class _DashboardPageState extends State<DashboardPage> {
         }else if(state is DisplayForecastWeatherState){
           forecastWeatherList.clear();
           forecastWeatherList.addAll(state.forecastWeatherList);
+        }else if(state is LocationFetchedState){
+          _dashboardBloc.add(GetCurrentWeatherByLatLangEvent(state.position));
+          _dashboardBloc.add(GetWeatherForecastByLatLangEvent(state.position));
         }
       },
       child: RefreshIndicator(

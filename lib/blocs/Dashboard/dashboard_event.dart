@@ -19,3 +19,16 @@ class GetWeatherForecastEvent extends DashboardEvent{
   @override
   List<Object> get props => [];
 }
+
+class GetCurrentWeatherByLatLangEvent extends DashboardEvent{
+  final Position position;
+  GetCurrentWeatherByLatLangEvent(this.position);
+  @override
+  List<Object> get props => [];
+}
+class GetWeatherForecastByLatLangEvent extends DashboardEvent{
+  final Position position;
+  GetWeatherForecastByLatLangEvent(this.position);
+  @override
+  List<Object> get props => [];
+}

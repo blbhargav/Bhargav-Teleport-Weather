@@ -94,6 +94,23 @@ class WeatherDataProvider extends BaseRepositoryProvider{
       return null;
     }
   }
+  @override
+  Future<ForecastWeather?> getWeatherForecastByLatLang(Position position) async{
+    try{
+      Uri uri=Uri.parse("http://api.openweathermap.org/data/2.5/forecast?lat=${position.latitude}&lon=${position.longitude}&appid=$apiKey&units=metric");
+      var response=await myClient.get(uri);
+      if(response.statusCode==200){
+        Map<String, dynamic> data = jsonDecode(response.body);
+        ForecastWeather forecastWeather=ForecastWeather.fromJson(data);
+        return forecastWeather;
+      }else{
+        return null;
+      }
+    }catch(_e){
+      print("BLB getWeatherForecastByLatLang exp $_e");
+      return null;
+    }
+  }
 
   @override
   Future<bool> addNewCity(String city) async{

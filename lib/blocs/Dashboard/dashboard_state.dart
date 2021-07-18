@@ -45,3 +45,9 @@ class DisplayForecastWeatherState extends DashboardState{
   @override
   List<Object> get props => [];
 }
+class LocationFetchedState extends DashboardState{
+  final Position position;
+  LocationFetchedState(this.position);
+  @override
+  List<Object> get props => [];
+}
