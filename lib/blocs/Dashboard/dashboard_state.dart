@@ -40,8 +40,8 @@ class ErrorForecastWeatherState extends DashboardState {
   List<Object> get props => [];
 }
 class DisplayForecastWeatherState extends DashboardState{
-  final ForecastWeather forecastWeather;
-  DisplayForecastWeatherState(this.forecastWeather);
+  final List<WeatherList> forecastWeatherList;
+  DisplayForecastWeatherState(this.forecastWeatherList);
   @override
   List<Object> get props => [];
 }

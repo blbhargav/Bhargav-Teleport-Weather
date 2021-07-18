@@ -4,6 +4,7 @@ import 'package:teleport_weather_bhargav/blocs/Cities/cities_bloc.dart';
 import 'package:teleport_weather_bhargav/blocs/Settings/settings_bloc.dart';
 import 'package:teleport_weather_bhargav/blocs/Splash/splash_bloc.dart';
 import 'package:teleport_weather_bhargav/blocs/Theme/theme_bloc.dart';
+import 'package:teleport_weather_bhargav/pages/current_weather_details.dart';
 import 'package:teleport_weather_bhargav/pages/home.dart';
 import 'package:teleport_weather_bhargav/pages/splash.dart';
 
@@ -71,6 +72,7 @@ class MyApp extends StatelessWidget {
           routes: {
             '/': (context) => SplashPage(),
             '/home': (context) => HomePage(),
+            '/weather_details':(context) => CurrentWeatherDetailsPage()
           },
         );
       },

@@ -8,6 +8,8 @@ import 'package:teleport_weather_bhargav/blocs/Dashboard/dashboard_bloc.dart';
 import 'package:teleport_weather_bhargav/models/current_weather.dart';
 import 'package:teleport_weather_bhargav/models/forecast_weather.dart';
 
+import 'current_weather_details.dart';
+
 class DashboardPage extends StatefulWidget {
 
   @override
@@ -21,7 +23,7 @@ class _DashboardPageState extends State<DashboardPage> {
   String? selectedCity;
 
   CurrentWeather? currentWeather;
-  ForecastWeather? forecastWeather;
+  List<WeatherList> forecastWeatherList=[];
   @override
   void initState() {
     super.initState();
@@ -42,114 +44,119 @@ class _DashboardPageState extends State<DashboardPage> {
           selectedCity=currentWeather!.name;
           _citiesBloc.add(RefreshEvent());
         }else if(state is DisplayForecastWeatherState){
-          forecastWeather=state.forecastWeather;
+          forecastWeatherList.clear();
+          forecastWeatherList.addAll(state.forecastWeatherList);
         }
       },
-      child: ListView(
-        padding: EdgeInsets.only(bottom: 100),
-        children: [
-          getCitiesWidget(),
-          SizedBox(height: 20,),
-          getCurrentWeatherWidget(),
+      child: RefreshIndicator(
+        child:ListView(
+          padding: EdgeInsets.only(bottom: 100),
+          children: [
+            getCitiesWidget(),
+            SizedBox(height: 20,),
+            getCurrentWeatherWidget(),
 
-          Container(
-            constraints: BoxConstraints(
-              minHeight: 400,
-            ),
-            padding: EdgeInsets.all(16),
-            margin: EdgeInsets.only(top: 30),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.all(Radius.circular(20)),
-              color: Theme.of(context).cardColor,
-            ),
-            child: Column(
-              children: [
-                Text("Next 5 days",style: TextStyle(fontWeight: FontWeight.w700,fontSize: 18),),
-                BlocBuilder<DashboardBloc, DashboardState>(
-                    bloc: _dashboardBloc,
-                    buildWhen: (previous, current) {
-                      if (current is ForecastWeatherInitial ||
-                          current is ErrorForecastWeatherState ||
-                          current is DisplayForecastWeatherState || current is DashboardInitial) {
-                        return true;
-                      }
-                      return false;
-                    },
-                    builder: (BuildContext context, DashboardState state){
-                      if(state is ForecastWeatherInitial || state is DashboardInitial){
-                        return Container(
-                          height: 100,
-                          child: Center(
-                            child: CircularProgressIndicator(),
-                          ),
-                        );
-                      }
-                      if(state is ErrorForecastWeatherState){
-                        return Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Container(
-                              height: 200,
-                              padding: EdgeInsets.all(10),
-                              decoration: BoxDecoration(
-                                  color: Theme.of(context).cardColor,
-                                  borderRadius: BorderRadius.all(Radius.circular(10))
-                              ),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text("Error fetching the forecast weather",
-                                    style: TextStyle(fontSize: 10,color: Theme.of(context).errorColor),
-                                  ),
-                                  SizedBox(height: 10,),
-                                  GestureDetector(
-                                    child: Container(
-                                      padding: EdgeInsets.all(10),
-                                      width: 80,
-                                      decoration: BoxDecoration(
-                                        color: Theme.of(context).primaryColor,
-                                        borderRadius: BorderRadius.all(Radius.circular(20)),
-
-                                      ),
-                                      child: Text("RETRY",
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(color: Colors.white),
-                                      ),
-                                    ),
-                                    onTap: (){
-                                      _dashboardBloc.add(GetWeatherForecastEvent(selectedCity!));
-                                    },
-                                  )
-                                ],
-                              ),
-                            )
-                          ],
-                        );
-                      }
-                      return forecastWeather==null?Container():ListView.separated(
-                        shrinkWrap: true,
-                        physics: NeverScrollableScrollPhysics(),
-                        itemCount: forecastWeather!.weatherlist!.length>6?6:forecastWeather!.weatherlist!.length,
-                        separatorBuilder: (context, index) {
+            Container(
+              constraints: BoxConstraints(
+                minHeight: 400,
+              ),
+              padding: EdgeInsets.only(top: 16,left: 16,right: 16,bottom: 40),
+              margin: EdgeInsets.only(top: 30),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.all(Radius.circular(20)),
+                color: Theme.of(context).cardColor,
+              ),
+              child: Column(
+                children: [
+                  Text("Next 5 days",style: TextStyle(fontWeight: FontWeight.w700,fontSize: 18),),
+                  SizedBox(height: 15,),
+                  BlocBuilder<DashboardBloc, DashboardState>(
+                      bloc: _dashboardBloc,
+                      buildWhen: (previous, current) {
+                        if (current is ForecastWeatherInitial ||
+                            current is ErrorForecastWeatherState ||
+                            current is DisplayForecastWeatherState || current is DashboardInitial) {
+                          return true;
+                        }
+                        return false;
+                      },
+                      builder: (BuildContext context, DashboardState state){
+                        if(state is ForecastWeatherInitial || state is DashboardInitial){
                           return Container(
-                            height: 1,
-                            color: Theme.of(context).colorScheme.iconsColor,
-                            margin: EdgeInsets.only(left: 20,right: 20,top: 10,bottom: 10),
+                            height: 100,
+                            child: Center(
+                              child: CircularProgressIndicator(),
+                            ),
                           );
-                        },
-                        itemBuilder: (BuildContext context,int index){
-                          WeatherList weather=forecastWeather!.weatherlist![index];
-                          return Text("${weather.main!.temp}°C");
-                        },
-                      );
-                    }
-                )
-              ],
-            ),
-          )
+                        }
+                        if(state is ErrorForecastWeatherState){
+                          return Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Container(
+                                height: 200,
+                                padding: EdgeInsets.all(10),
+                                decoration: BoxDecoration(
+                                    color: Theme.of(context).cardColor,
+                                    borderRadius: BorderRadius.all(Radius.circular(10))
+                                ),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text("Error fetching the forecast weather",
+                                      style: TextStyle(fontSize: 10,color: Theme.of(context).errorColor),
+                                    ),
+                                    SizedBox(height: 10,),
+                                    GestureDetector(
+                                      child: Container(
+                                        padding: EdgeInsets.all(10),
+                                        width: 80,
+                                        decoration: BoxDecoration(
+                                          color: Theme.of(context).primaryColor,
+                                          borderRadius: BorderRadius.all(Radius.circular(20)),
 
-        ],
+                                        ),
+                                        child: Text("RETRY",
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(color: Colors.white),
+                                        ),
+                                      ),
+                                      onTap: (){
+                                        _dashboardBloc.add(GetWeatherForecastEvent(selectedCity!));
+                                      },
+                                    )
+                                  ],
+                                ),
+                              )
+                            ],
+                          );
+                        }
+                        return forecastWeatherList.length==0?Container():ListView.separated(
+                          shrinkWrap: true,
+                          physics: NeverScrollableScrollPhysics(),
+                          itemCount: forecastWeatherList.length>5?5:forecastWeatherList.length,
+                          separatorBuilder: (context, index) {
+                            return Container(
+                              height: 0.1,
+                              color: Theme.of(context).colorScheme.iconsColor,
+                              margin: EdgeInsets.only(left: 20,right: 20,top: 10,bottom: 10),
+                            );
+                          },
+                          itemBuilder: (BuildContext context,int index){
+                            WeatherList weather=forecastWeatherList[index];
+                            return getWeatherForecastCard(weather);
+                          },
+                        );
+                      }
+                  )
+                ],
+              ),
+            )
+
+          ],
+        ),
+        onRefresh: onRefresh,
       ),
     );
   }
@@ -332,29 +339,100 @@ class _DashboardPageState extends State<DashboardPage> {
               ),
               SizedBox(height: 20,),
 
-              Container(
-                width: 150,
-                height: 35,
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.all(Radius.circular(20)),
-                    border: Border.all(width: 1,color: Color(0xffA7A7A7))
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Text("See Details",style: TextStyle(color: Color(0xffA7A7A7)),),
-                    SizedBox(width: 5,),
-                    Icon(Icons.keyboard_arrow_right_outlined,size: 20,color: Color(0xffA7A7A7),)
-                  ],
+              GestureDetector(
+                child: Container(
+                  width: 150,
+                  height: 35,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.all(Radius.circular(20)),
+                      border: Border.all(width: 1,color: Color(0xffA7A7A7))
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text("See Details",style: TextStyle(color: Color(0xffA7A7A7)),),
+                      SizedBox(width: 5,),
+                      Icon(Icons.keyboard_arrow_right_outlined,size: 20,color: Color(0xffA7A7A7),)
+                    ],
+
+                  ),
 
                 ),
-
+                onTap: (){
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => CurrentWeatherDetailsPage(
+                        city: selectedCity,
+                        currentWeather: currentWeather,
+                      ),
+                    ),
+                  );
+                },
               )
 
             ],
           );
         }
     );
+  }
+
+  Widget getWeatherForecastCard(WeatherList weatherForecast) {
+    DateFormat dateFormat=DateFormat("yyyy-MM-dd HH:mm:ss");
+    DateTime weatherDate=dateFormat.parse(weatherForecast.dtTxt!);
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Container(
+          constraints: BoxConstraints(
+            minWidth: 250,
+            maxWidth: 360,
+            maxHeight: 60
+          ),
+          padding: EdgeInsets.all(10),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.all(Radius.circular(15)),
+            color: Theme.of(context).colorScheme.forecastCardColor
+          ),
+          child: Row(
+            children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text("${DateFormat("EEEE").format(weatherDate)}",
+                    style: TextStyle(fontWeight: FontWeight.w700,fontSize: 15),
+                  ),
+                  Text("${DateFormat("dd MMM, yyyy").format(weatherDate)}",
+                    style: TextStyle(fontWeight: FontWeight.w400,fontSize: 12,color: Theme.of(context).colorScheme.iconsColor),
+                  ),
+                ],
+              ),
+              Spacer(),
+              weatherForecast.weather![0].icon!=null?Container(
+                width: 40,
+                height: 40,
+                margin: EdgeInsets.only(right: 10),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.all(Radius.circular(25)),
+                  color: Theme.of(context).primaryColor.withOpacity(0.3)
+                ),
+                child: Image.network("http://openweathermap.org/img/w/${weatherForecast.weather![0].icon}.png",),
+              ):Container(),
+              Text("${weatherForecast.main!.temp!.toStringAsFixed(0)}°C",
+                style: TextStyle(fontWeight: FontWeight.w800,fontSize: 20),
+              )
+            ],
+          ),
+        )
+      ],
+    );
+  }
+
+  Future<void> onRefresh() {
+    _dashboardBloc.add(GetCurrentWeatherEvent(selectedCity!));
+    _dashboardBloc.add(GetWeatherForecastEvent(selectedCity!));
+    return Future.value(true);
   }
 }

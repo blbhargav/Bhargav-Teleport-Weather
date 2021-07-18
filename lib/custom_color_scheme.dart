@@ -7,6 +7,8 @@ extension CustomColorScheme on ColorScheme {
   Color get iconsColor => brightness == Brightness.light ? Color(0xff666666) : Color(0xffA7A7A7);
 
   //Color get dashBoardSecondaryTextColor => brightness == Brightness.light ? Color(0xff666666) : Color(0xffA7A7A7);
+
+  Color get forecastCardColor => brightness == Brightness.light ? Color(0xffe6ecfb) : Color(0xff34405e);
 }
 
 //280140
