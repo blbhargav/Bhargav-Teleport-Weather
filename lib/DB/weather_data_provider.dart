@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:f_logs/f_logs.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:teleport_weather_bhargav/models/current_weather.dart';
 import 'package:teleport_weather_bhargav/models/forecast_weather.dart';
@@ -58,6 +59,7 @@ class WeatherDataProvider extends BaseRepositoryProvider{
       }
     }catch(_e){
       print("BLB getCurrentWeather exp $_e");
+      _logErrorDetails(methodName:"getCurrentWeather",error:"$_e");
       return null;
     }
   }
@@ -77,6 +79,7 @@ class WeatherDataProvider extends BaseRepositoryProvider{
       }
     }catch(_e){
       print("BLB getCurrentWeatherFromLatLang exp $_e");
+      _logErrorDetails(methodName:"getCurrentWeatherFromLatLang",error:"$_e");
       return null;
     }
   }
@@ -95,6 +98,7 @@ class WeatherDataProvider extends BaseRepositoryProvider{
       }
     }catch(_e){
       print("BLB getWeatherForecast exp $_e");
+      _logErrorDetails(methodName:"getWeatherForecast",error:"$_e");
       return null;
     }
   }
@@ -112,6 +116,7 @@ class WeatherDataProvider extends BaseRepositoryProvider{
       }
     }catch(_e){
       print("BLB getWeatherForecastByLatLang exp $_e");
+      _logErrorDetails(methodName:"getWeatherForecastByLatLang",error:"$_e");
       return null;
     }
   }
@@ -129,7 +134,15 @@ class WeatherDataProvider extends BaseRepositoryProvider{
       await sharedPrefService!.saveCities(cities);
       return true;
     }catch(e){
+      _logErrorDetails(methodName:"addNewCity",error:"$e");
       return false;
     }
+  }
+
+  void _logErrorDetails({required String methodName,required String error}){
+    FLog.error(
+        className: "WeatherDataProvider",
+        methodName: methodName,
+        text: error);
   }
 }

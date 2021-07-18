@@ -41,5 +41,15 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+
+	<key>NSPhotoLibraryAddUsageDescription</key>
+    <string>FLogs would like to save photos from the app to your gallery</string>
+    <key>NSPhotoLibraryUsageDescription</key>
+    <string>FLogs would like to access your photo gallery for uploading images to the app</string>
+
+    <key>NSLocationWhenInUseUsageDescription</key>
+    <string>This app needs access to location when open.</string>
+    <key>NSLocationAlwaysUsageDescription</key>
+    <string>This app needs access to location when in the background.</string>
 </dict>
 </plist>

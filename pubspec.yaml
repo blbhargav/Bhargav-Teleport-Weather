@@ -33,6 +33,7 @@ dependencies:
   flutter_svg: ^0.22.0 #pluggin to load SVG files
   intl: ^0.17.0 #for parsing DateTime
   connectivity: ^3.0.6 #for checking internet connection
+  f_logs: ^2.0.0 #for storing logs in internal storage.
 
 dev_dependencies:
   flutter_test:
